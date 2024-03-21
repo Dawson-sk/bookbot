@@ -2,6 +2,7 @@ with open("books/frankenstein.txt") as f:
     file_contents = f.read()
     words = file_contents.split()
 
+
 def letter_count(list):
     letter = {
         "a": 0,
@@ -31,19 +32,33 @@ def letter_count(list):
         "y": 0,
         "z": 0
     }       
+    seen = []
+    list = []
 
     for word in file_contents:
         for i in word.lower():
             if i in letter:
                 letter[i] += 1
 
-    # keys = letter.keys
-    # values = letter.values()
-                
-    str = letter.items()
+    for i in range(len(letter)):
+        key, high = "", 0
+        for k,v in letter.items():
+            if v > high and k not in seen:
+                key = k
+                high = v
+
+        seen.append(key)
+        list.append(f"The '{key}' character was found {high} times")
+
+    return list
+
+def make_report(wcount, letters):
+    print(f"--- Begin report of books/frankenstein.txt ---")
+    print(f"{wcount} words found in the document\n\n")
     
-    for i in str:
-        print(f"The '{i[0]}' character was found {i[1]} times")
+    for i in letters:
+        print(i)
+
 
 
 
@@ -53,9 +68,9 @@ def main():
     for i in range(len(words)):
         word_count += 1
 
-    letter_count(words)
+    l = letter_count(words)
 
-    print(word_count)
+    make_report(word_count, l)
 
 
 main()
